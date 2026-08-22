@@ -31,4 +31,4 @@ app.all("/api/auth/*path", toNodeHandler(auth));
 app.use("/api/sliders", sliderRoutes);
 app.use("/api/news", newsRoutes);
 
-export default app;
+export { app };
