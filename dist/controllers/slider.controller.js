@@ -1,4 +1,4 @@
-import { sliderService } from "../services/slider.service";
+import { sliderService } from "../services/slider.service.js";
 export const sliderController = {
     async getSliders(req, res) {
         try {
@@ -85,3 +85,4 @@ export const sliderController = {
         }
     },
 };
+//# sourceMappingURL=slider.controller.js.map

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { PrismaClient } from "../generated/client";
+import { PrismaClient } from "../generated/index.js";
 import { PrismaPg } from "@prisma/adapter-pg";
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
@@ -11,3 +11,4 @@ const adapter = new PrismaPg({
 export const prisma = new PrismaClient({
     adapter,
 });
+//# sourceMappingURL=database.js.map

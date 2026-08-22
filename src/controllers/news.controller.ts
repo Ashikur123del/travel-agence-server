@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { newsService } from "../services/news.service";
+import { newsService } from "../services/news.service.js";
+
 
 export const newsController = {
   async getNews(req: Request, res: Response) {

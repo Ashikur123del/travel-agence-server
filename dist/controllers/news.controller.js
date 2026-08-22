@@ -1,4 +1,4 @@
-import { newsService } from "../services/news.service";
+import { newsService } from "../services/news.service.js";
 export const newsController = {
     async getNews(req, res) {
         try {
@@ -121,3 +121,4 @@ export const newsController = {
         }
     },
 };
+//# sourceMappingURL=news.controller.js.map

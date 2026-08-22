@@ -2,14 +2,18 @@
   "name": "Travel-Agence-Server",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "start": "node dist/server.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
     "@better-auth/prisma-adapter": "^1.7.0",
     "@prisma/adapter-pg": "^7.9.1",

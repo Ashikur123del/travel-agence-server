@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "@better-auth/prisma-adapter";
-import { PrismaClient } from "../generated";
+import { PrismaClient } from "../generated/index.js";
 import { PrismaPg } from "@prisma/adapter-pg";
 import pkg from "pg";
 const { Pool } = pkg;
@@ -37,3 +37,4 @@ export const auth = betterAuth({
         },
     },
 });
+//# sourceMappingURL=auth.js.map

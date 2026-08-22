@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { sliderController } from "../controllers/slider.controller";
-import { upload } from "../middlewares/upload.middleware";
+import { sliderController } from "../controllers/slider.controller.js";
+import { upload } from "../middlewares/upload.middleware.js";
 
 const router = Router();
 

@@ -1,6 +1,8 @@
 import { Router } from "express";
-import { newsController } from "../controllers/news.controller";
-import { upload } from "../middlewares/upload.middleware";
+
+
+import { newsController } from "../controllers/news.controller.js";
+import { upload } from "../middlewares/upload.middleware.js";
 
 const router = Router();
 

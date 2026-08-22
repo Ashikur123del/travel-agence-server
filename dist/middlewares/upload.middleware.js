@@ -19,3 +19,4 @@ const storage = new CloudinaryStorage({
     },
 });
 export const upload = multer({ storage: storage });
+//# sourceMappingURL=upload.middleware.js.map

@@ -1,10 +1,5 @@
-import { PrismaClient } from "../generated";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
-const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+// আপনার মেইন প্রিজমা ইনস্ট্যান্স ইমপোর্ট করুন
+import { prisma } from "../config/database.js";
 export const newsService = {
     async getAllNews() {
         return await prisma.news.findMany({
@@ -50,3 +45,4 @@ export const newsService = {
         });
     },
 };
+//# sourceMappingURL=news.service.js.map
