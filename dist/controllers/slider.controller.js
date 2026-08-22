@@ -1,11 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.sliderController = void 0;
-const slider_service_1 = require("../services/slider.service");
-exports.sliderController = {
+import { sliderService } from "../services/slider.service";
+export const sliderController = {
     async getSliders(req, res) {
         try {
-            const sliders = await slider_service_1.sliderService.getAllSliders();
+            const sliders = await sliderService.getAllSliders();
             return res.status(200).json(sliders);
         }
         catch (error) {
@@ -17,7 +14,7 @@ exports.sliderController = {
         try {
             const rawId = req.params.id;
             const id = Array.isArray(rawId) ? rawId[0] : rawId;
-            const slider = await slider_service_1.sliderService.getSliderById(id);
+            const slider = await sliderService.getSliderById(id);
             if (!slider) {
                 return res.status(404).json({ error: "Slider not found" });
             }
@@ -35,7 +32,7 @@ exports.sliderController = {
             if (!imagePath || !firstText || !highlightText || !secondText || !description) {
                 return res.status(400).json({ error: "Missing required fields or image file" });
             }
-            const newSlide = await slider_service_1.sliderService.createSlider({
+            const newSlide = await sliderService.createSlider({
                 image: imagePath,
                 alt: alt || "Slide image",
                 firstText,
@@ -60,7 +57,7 @@ exports.sliderController = {
             const { alt, firstText, highlightText, secondText, description } = req.body;
             // ✅ সংশোধন: নতুন ফাইল আসলে ক্লাউডিনারি পাথ, না হলে আগের ইমেজ লিংক
             const imagePath = req.file ? req.file.path : req.body.image;
-            const updatedSlide = await slider_service_1.sliderService.updateSlider(id, {
+            const updatedSlide = await sliderService.updateSlider(id, {
                 ...(imagePath && { image: imagePath }),
                 ...(alt && { alt }),
                 ...(firstText && { firstText }),
@@ -79,7 +76,7 @@ exports.sliderController = {
         try {
             const rawId = req.params.id;
             const id = Array.isArray(rawId) ? rawId[0] : rawId;
-            await slider_service_1.sliderService.deleteSlider(id);
+            await sliderService.deleteSlider(id);
             return res.status(200).json({ message: "Slide deleted successfully" });
         }
         catch (error) {

@@ -1,22 +1,16 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.auth = void 0;
-const better_auth_1 = require("better-auth");
-const prisma_adapter_1 = require("@better-auth/prisma-adapter");
-const generated_1 = require("../generated");
-const adapter_pg_1 = require("@prisma/adapter-pg");
-const pg_1 = __importDefault(require("pg"));
-const { Pool } = pg_1.default;
+import { betterAuth } from "better-auth";
+import { prismaAdapter } from "@better-auth/prisma-adapter";
+import { PrismaClient } from "../generated";
+import { PrismaPg } from "@prisma/adapter-pg";
+import pkg from "pg";
+const { Pool } = pkg;
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
-const adapter = new adapter_pg_1.PrismaPg(pool);
-const prisma = new generated_1.PrismaClient({ adapter });
-exports.auth = (0, better_auth_1.betterAuth)({
-    database: (0, prisma_adapter_1.prismaAdapter)(prisma, {
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
+export const auth = betterAuth({
+    database: prismaAdapter(prisma, {
         provider: "postgresql",
     }),
     emailAndPassword: {

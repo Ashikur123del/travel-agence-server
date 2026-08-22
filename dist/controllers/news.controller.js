@@ -1,12 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.newsController = void 0;
-const news_service_1 = require("../services/news.service");
-exports.newsController = {
+import { newsService } from "../services/news.service";
+export const newsController = {
     // ১. সব নিউজ গেট করা (Get All)
     async getNews(req, res) {
         try {
-            const newsList = await news_service_1.newsService.getAllNews();
+            const newsList = await newsService.getAllNews();
             return res.status(200).json(newsList);
         }
         catch (error) {
@@ -19,7 +16,7 @@ exports.newsController = {
         try {
             const rawId = req.params.id;
             const id = Array.isArray(rawId) ? rawId[0] : rawId;
-            const article = await news_service_1.newsService.getNewsById(id);
+            const article = await newsService.getNewsById(id);
             if (!article) {
                 return res.status(404).json({ error: "News article not found" });
             }
@@ -38,7 +35,7 @@ exports.newsController = {
             if (!imagePath || !title || !slug || !category || !excerpt || !content || !date) {
                 return res.status(400).json({ error: "Missing required fields or image file" });
             }
-            const newArticle = await news_service_1.newsService.createNews({
+            const newArticle = await newsService.createNews({
                 title,
                 slug,
                 category,
@@ -90,7 +87,7 @@ exports.newsController = {
             if (imagePath) {
                 updateData.image = imagePath;
             }
-            const updatedArticle = await news_service_1.newsService.updateNews(id, updateData);
+            const updatedArticle = await newsService.updateNews(id, updateData);
             return res.status(200).json({ message: "News updated successfully", updatedArticle });
         }
         catch (error) {
@@ -103,7 +100,7 @@ exports.newsController = {
         try {
             const rawId = req.params.id;
             const id = Array.isArray(rawId) ? rawId[0] : rawId;
-            await news_service_1.newsService.deleteNews(id);
+            await newsService.deleteNews(id);
             return res.status(200).json({ message: "News deleted successfully" });
         }
         catch (error) {
