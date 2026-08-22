@@ -1,6 +1,5 @@
 import { newsService } from "../services/news.service";
 export const newsController = {
-    // ১. সব নিউজ গেট করা (Get All)
     async getNews(req, res) {
         try {
             const newsList = await newsService.getAllNews();
@@ -11,7 +10,6 @@ export const newsController = {
             return res.status(500).json({ error: "Failed to fetch news" });
         }
     },
-    // ২. নির্দিষ্ট একটি নিউজ গেট করা (Get Single News by ID)
     async getSingleNews(req, res) {
         try {
             const rawId = req.params.id;
@@ -27,13 +25,20 @@ export const newsController = {
             return res.status(500).json({ error: "Failed to fetch news article" });
         }
     },
-    // ৩. নতুন নিউজ তৈরি করা (Create / Post)
     async createNews(req, res) {
         try {
             const imagePath = req.file ? req.file.path : null;
-            const { title, slug, category, categoryColor, excerpt, content, date, readTime, author, featured } = req.body;
-            if (!imagePath || !title || !slug || !category || !excerpt || !content || !date) {
-                return res.status(400).json({ error: "Missing required fields or image file" });
+            const { title, slug, category, categoryColor, excerpt, content, date, readTime, author, featured, } = req.body;
+            if (!imagePath ||
+                !title ||
+                !slug ||
+                !category ||
+                !excerpt ||
+                !content ||
+                !date) {
+                return res
+                    .status(400)
+                    .json({ error: "Missing required fields or image file" });
             }
             const newArticle = await newsService.createNews({
                 title,
@@ -48,20 +53,23 @@ export const newsController = {
                 author,
                 featured: featured === "true" || featured === true,
             });
-            return res.status(201).json({ message: "News created successfully", newArticle });
+            return res
+                .status(201)
+                .json({ message: "News created successfully", newArticle });
         }
         catch (error) {
             console.error("Error creating news:", error?.message || error);
-            return res.status(500).json({ error: error?.message || "Failed to create news" });
+            return res
+                .status(500)
+                .json({ error: error?.message || "Failed to create news" });
         }
     },
-    // ৪. নির্দিষ্ট নিউজ আপডেট করা (PATCH / Partial Update)
     async updateNews(req, res) {
         try {
             const rawId = req.params.id;
             const id = Array.isArray(rawId) ? rawId[0] : rawId;
             const imagePath = req.file ? req.file.path : undefined;
-            const { title, slug, category, categoryColor, excerpt, content, date, readTime, author, featured } = req.body;
+            const { title, slug, category, categoryColor, excerpt, content, date, readTime, author, featured, } = req.body;
             const updateData = {};
             if (title !== undefined)
                 updateData.title = title;
@@ -88,11 +96,15 @@ export const newsController = {
                 updateData.image = imagePath;
             }
             const updatedArticle = await newsService.updateNews(id, updateData);
-            return res.status(200).json({ message: "News updated successfully", updatedArticle });
+            return res
+                .status(200)
+                .json({ message: "News updated successfully", updatedArticle });
         }
         catch (error) {
             console.error("Error updating news:", error?.message || error);
-            return res.status(500).json({ error: error?.message || "Failed to update news" });
+            return res
+                .status(500)
+                .json({ error: error?.message || "Failed to update news" });
         }
     },
     // ৫. নিউজ ডিলিট করা (Delete)
