@@ -1,0 +1,1 @@
+{"version":3,"file":"news.controller.d.ts","sourceRoot":"","sources":["news.controller.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAG5C,eAAO,MAAM,cAAc;IAEnB,OAAO,MAAM,OAAO,OAAO,QAAQ;IAWnC,aAAa,MAAM,OAAO,OAAO,QAAQ;IAmBzC,UAAU,MAAM,GAAG,OAAO,QAAQ;IA+BlC,UAAU,MAAM,GAAG,OAAO,QAAQ;IAqClC,UAAU,MAAM,OAAO,OAAO,QAAQ;CAY7C,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"slider.controller.d.ts","sourceRoot":"","sources":["slider.controller.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAG5C,eAAO,MAAM,gBAAgB;IACrB,UAAU,MAAM,OAAO,OAAO,QAAQ;IAUtC,aAAa,MAAM,OAAO,OAAO,QAAQ;IAkB1C,YAAY,MAAM,GAAG,OAAO,QAAQ;IA6BnC,YAAY,MAAM,GAAG,OAAO,QAAQ;IA0BpC,YAAY,MAAM,OAAO,OAAO,QAAQ;CAa/C,CAAC"}
