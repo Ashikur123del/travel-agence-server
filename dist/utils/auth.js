@@ -12,6 +12,9 @@ export const auth = betterAuth({
         expiresIn: 60 * 60 * 24 * 4,
         updateAge: 60 * 60 * 24,
     },
+    trustedOrigins: process.env.FRONTEND_URL
+        ? [process.env.FRONTEND_URL, "http://localhost:3000", "http://localhost:3001"]
+        : ["http://localhost:3000", "http://localhost:3001"],
     advanced: {
         disableOriginCheck: process.env.NODE_ENV !== "production",
     },

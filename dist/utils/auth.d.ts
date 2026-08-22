@@ -7,6 +7,7 @@ export declare const auth: import("better-auth").Auth<{
         expiresIn: number;
         updateAge: number;
     };
+    trustedOrigins: string[];
     advanced: {
         disableOriginCheck: boolean;
     };
