@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import path from "path"; // পাথ মডিউল ইমপোর্ট করুন
+import path from "path";
 import { toNodeHandler } from "better-auth/node";
 import sliderRoutes from "./routes/slider.route.js";
 import newsRoutes from './routes/news.route.js';
@@ -10,8 +10,17 @@ import { auth } from "./utils/auth.js";
 const app = express();
 app.use(cors({
     origin: process.env.FRONTEND_URL
-        ? [process.env.FRONTEND_URL, "http://localhost:3000", "http://localhost:3001"]
-        : ["http://localhost:3000", "http://localhost:3001"],
+        ? [
+            process.env.FRONTEND_URL,
+            "https://travel-agance-hojj-umrah.vercel.app",
+            "http://localhost:3000",
+            "http://localhost:3001"
+        ]
+        : [
+            "https://travel-agance-hojj-umrah.vercel.app",
+            "http://localhost:3000",
+            "http://localhost:3001"
+        ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
