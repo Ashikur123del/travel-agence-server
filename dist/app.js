@@ -2,11 +2,11 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import path from "path"; // পাথ মডিউল ইমপোর্ট করুন
-import { auth } from "./utils/auth";
+import path from "path";
+import { auth } from "./utils/auth.js";
 import { toNodeHandler } from "better-auth/node";
-import sliderRoutes from "./routes/slider.route";
-import newsRoutes from './routes/news.route';
+import sliderRoutes from "./routes/slider.route.js";
+import newsRoutes from './routes/news.route.js';
 const app = express();
 app.use(cors({
     origin: ["http://localhost:3000", "http://localhost:3001"],
