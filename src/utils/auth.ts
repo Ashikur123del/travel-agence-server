@@ -19,17 +19,17 @@ export const auth = betterAuth({
     "http://localhost:3001",
     process.env.FRONTEND_URL || "https://travel-agance-hojj-umrah.vercel.app",
   ],
-  // নির্দিষ্ট ইউজার ছাড়া অন্যদের রেজিস্ট্রেশন ব্লক করার জন্য এই হুকটি যোগ করা হয়েছে
-  // databaseHooks: {
-  //   user: {
-  //     create: {
-  //       before: async (user) => {
-  //         if (user.email !== "nirob123@gmail.com") {
-  //           throw new Error("Registration is restricted. Only authorized accounts can sign up.");
-  //         }
-  //         return { data: user };
-  //       },
-  //     },
-  //   },
-  // },
+
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user) => {
+          if (user.email !== "asikk2925@gmail.com") {
+            throw new Error("Registration is restricted. Only authorized accounts can sign up.");
+          }
+          return { data: user };
+        },
+      },
+    },
+  },
 });
