@@ -31,5 +31,4 @@ app.all("/api/auth/*path", toNodeHandler(auth));
 app.use("/api/sliders", sliderRoutes);
 app.use("/api/news", newsRoutes);
 
-// এটি হলো সঠিক ডিফল্ট এক্সপোর্ট
 export default app;
