@@ -8,7 +8,7 @@ import sliderRoutes from "./routes/slider.route.js";
 import newsRoutes from './routes/news.route.js';
 import { auth } from "./utils/auth.js";
 import { galleryRoutes } from "./routes/gallery.route.js";
-import { contactRoutes } from "./routes/contact.route.js";
+import contactRoutes from "./routes/contact.route.js";
 const app = express();
 app.use(cors({
     origin: process.env.FRONTEND_URL
