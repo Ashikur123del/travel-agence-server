@@ -79,6 +79,32 @@ export const ContactController = {
     }
   },
 
+  // Update Full Message (Edit)
+  async update(req: Request, res: Response) {
+    try {
+      const rawId = req.params.id;
+      const id = Array.isArray(rawId) ? rawId[0] : rawId;
+      const updateData = req.body;
+
+      const updatedContact = await ContactService.updateContact(id, updateData);
+
+      if (!updatedContact) {
+        return res.status(404).json({
+          success: false,
+          message: "Contact message not found for update",
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "Contact message updated successfully",
+        data: updatedContact,
+      });
+    } catch (error: any) {
+      res.status(500).json({ success: false, message: error.message });
+    }
+  },
+
   // Delete Message
   async remove(req: Request, res: Response) {
     try {
@@ -88,7 +114,7 @@ export const ContactController = {
       await ContactService.deleteContact(id);
       res.status(200).json({
         success: true,
-        message: "Contact message deleted successfully",
+        message: "Message deleted successfully",
       });
     } catch (error: any) {
       res.status(500).json({ success: false, message: error.message });

@@ -17,13 +17,11 @@ export const ContactService = {
     });
   },
 
-
   async getContactById(id: string) {
     return await prisma.contactMessage.findUnique({
       where: { id },
     });
   },
-
 
   async updateContactStatus(id: string, isRead: boolean) {
     return await prisma.contactMessage.update({
@@ -32,6 +30,22 @@ export const ContactService = {
     });
   },
 
+  // নতুন যোগ করা হয়েছে: সম্পূর্ণ মেসেজ বা কন্টাক্ট এডিট করার জন্য
+  async updateContact(
+    id: string,
+    data: {
+      name?: string;
+      phone?: string;
+      email?: string;
+      service?: string;
+      message?: string;
+    }
+  ) {
+    return await prisma.contactMessage.update({
+      where: { id },
+      data,
+    });
+  },
 
   async deleteContact(id: string) {
     return await prisma.contactMessage.delete({

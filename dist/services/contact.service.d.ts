@@ -45,6 +45,22 @@ export declare const ContactService: {
         isRead: boolean;
         createdAt: Date;
     }>;
+    updateContact(id: string, data: {
+        name?: string;
+        phone?: string;
+        email?: string;
+        service?: string;
+        message?: string;
+    }): Promise<{
+        id: string;
+        name: string;
+        phone: string;
+        email: string | null;
+        service: string | null;
+        message: string;
+        isRead: boolean;
+        createdAt: Date;
+    }>;
     deleteContact(id: string): Promise<{
         id: string;
         name: string;

@@ -4,5 +4,6 @@ export declare const ContactController: {
     getAll(req: Request, res: Response): Promise<void>;
     getById(req: Request, res: Response): Promise<Response<any, Record<string, any>> | undefined>;
     updateStatus(req: Request, res: Response): Promise<void>;
+    update(req: Request, res: Response): Promise<Response<any, Record<string, any>> | undefined>;
     remove(req: Request, res: Response): Promise<void>;
 };
