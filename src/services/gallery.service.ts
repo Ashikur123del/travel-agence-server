@@ -1,4 +1,4 @@
-import { prisma } from "../config/database.js"; // আপনার প্রজেক্টের সঠিক পাথ দিন
+import { prisma } from "../config/database.js";   
 
 export const GalleryService = {
  
@@ -13,14 +13,14 @@ export const GalleryService = {
     });
   },
 
-  // Get Single by ID
+
   async getGalleryById(id: string) {
     return await prisma.gallery.findUnique({
       where: { id },
     });
   },
 
-  // Update
+
   async updateGallery(id: string, data: { title?: string; category?: string; imageUrl?: string }) {
     return await prisma.gallery.update({
       where: { id },
@@ -28,7 +28,6 @@ export const GalleryService = {
     });
   },
 
-  // Delete
   async deleteGallery(id: string) {
     return await prisma.gallery.delete({
       where: { id },

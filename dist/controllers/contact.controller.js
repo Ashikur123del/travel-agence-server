@@ -1,6 +1,5 @@
 import { ContactService } from "../services/contact.service.js";
 export const ContactController = {
-    // Create / Send Message
     async create(req, res) {
         try {
             const { name, phone, email, service, message } = req.body;
@@ -27,7 +26,6 @@ export const ContactController = {
             res.status(500).json({ success: false, message: error.message });
         }
     },
-    // Get All Messages
     async getAll(req, res) {
         try {
             const contacts = await ContactService.getAllContacts();
@@ -37,7 +35,6 @@ export const ContactController = {
             res.status(500).json({ success: false, message: error.message });
         }
     },
-    // Get Single Message by ID
     async getById(req, res) {
         try {
             const rawId = req.params.id;
@@ -55,7 +52,6 @@ export const ContactController = {
             res.status(500).json({ success: false, message: error.message });
         }
     },
-    // Update Status (Read/Unread)
     async updateStatus(req, res) {
         try {
             const rawId = req.params.id;
@@ -72,7 +68,6 @@ export const ContactController = {
             res.status(500).json({ success: false, message: error.message });
         }
     },
-    // Update Full Message (Edit)
     async update(req, res) {
         try {
             const rawId = req.params.id;
@@ -95,7 +90,6 @@ export const ContactController = {
             res.status(500).json({ success: false, message: error.message });
         }
     },
-    // Delete Message
     async remove(req, res) {
         try {
             const rawId = req.params.id;

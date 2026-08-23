@@ -107,7 +107,6 @@ export const newsController = {
                 .json({ error: error?.message || "Failed to update news" });
         }
     },
-    // ৫. নিউজ ডিলিট করা (Delete)
     async deleteNews(req, res) {
         try {
             const rawId = req.params.id;

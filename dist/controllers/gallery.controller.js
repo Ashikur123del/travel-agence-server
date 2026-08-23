@@ -1,6 +1,5 @@
 import { GalleryService } from "../services/gallery.service.js";
 export const GalleryController = {
-    // Create
     async create(req, res) {
         try {
             const imagePath = req.file ? req.file.path : null;
@@ -19,7 +18,6 @@ export const GalleryController = {
             res.status(500).json({ success: false, message: error.message });
         }
     },
-    // Get All
     async getAll(req, res) {
         try {
             const galleries = await GalleryService.getAllGalleries();
@@ -29,7 +27,6 @@ export const GalleryController = {
             res.status(500).json({ success: false, message: error.message });
         }
     },
-    // Get Single
     async getById(req, res) {
         try {
             const rawId = req.params.id;
@@ -44,13 +41,11 @@ export const GalleryController = {
             res.status(500).json({ success: false, message: error.message });
         }
     },
-    // Update
     async update(req, res) {
         try {
             const rawId = req.params.id;
             const id = Array.isArray(rawId) ? rawId[0] : rawId;
             const { title, category } = req.body;
-            // নতুন ফাইল আসলে ক্লাউডিনারি পাথ, না হলে আগের ইমেজ লিংক
             const imagePath = req.file ? req.file.path : req.body.imageUrl;
             const updated = await GalleryService.updateGallery(id, {
                 ...(title && { title }),
@@ -63,7 +58,6 @@ export const GalleryController = {
             res.status(500).json({ success: false, message: error.message });
         }
     },
-    // Delete
     async remove(req, res) {
         try {
             const rawId = req.params.id;

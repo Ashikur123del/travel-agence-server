@@ -55,7 +55,6 @@ export const sliderController = {
             const rawId = req.params.id;
             const id = Array.isArray(rawId) ? rawId[0] : rawId;
             const { alt, firstText, highlightText, secondText, description } = req.body;
-            // ✅ সংশোধন: নতুন ফাইল আসলে ক্লাউডিনারি পাথ, না হলে আগের ইমেজ লিংক
             const imagePath = req.file ? req.file.path : req.body.image;
             const updatedSlide = await sliderService.updateSlider(id, {
                 ...(imagePath && { image: imagePath }),

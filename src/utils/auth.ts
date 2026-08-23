@@ -10,8 +10,8 @@ export const auth = betterAuth({
     enabled: true,
   },
   session: {
-    expiresIn: 60 * 60 * 24 * 4, 
-    updateAge: 60 * 60 * 24,    
+    expiresIn: 60 * 60 * 24 * 4,
+    updateAge: 60 * 60 * 24,
   },
   trustedOrigins: [
     "https://travel-agance-hojj-umrah.vercel.app",

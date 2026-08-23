@@ -16,7 +16,7 @@ export const sliderController = {
     try {
       const rawId = req.params.id;
       const id = Array.isArray(rawId) ? rawId[0] : rawId;
-      
+
       const slider = await sliderService.getSliderById(id);
 
       if (!slider) {
@@ -30,7 +30,7 @@ export const sliderController = {
     }
   },
 
- async createSlider(req: any, res: Response) {
+  async createSlider(req: any, res: Response) {
     try {
       const imagePath = req.file ? req.file.path : null;
       const { alt, firstText, highlightText, secondText, description } = req.body;
@@ -49,7 +49,7 @@ export const sliderController = {
       });
 
       return res.status(201).json({ message: "Slide created successfully", newSlide });
-    }  catch (error: any) {
+    } catch (error: any) {
       console.error("==================== FULL ERROR START ====================");
       console.error(error);
       console.error("JSON STRINGIFIED:", JSON.stringify(error, Object.getOwnPropertyNames(error), 2));
@@ -65,8 +65,6 @@ export const sliderController = {
       const id = Array.isArray(rawId) ? rawId[0] : rawId;
 
       const { alt, firstText, highlightText, secondText, description } = req.body;
-      
-      // ✅ সংশোধন: নতুন ফাইল আসলে ক্লাউডিনারি পাথ, না হলে আগের ইমেজ লিংক
       const imagePath = req.file ? req.file.path : req.body.image;
 
       const updatedSlide = await sliderService.updateSlider(id, {

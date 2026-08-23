@@ -5,7 +5,6 @@ export const sliderService = {
             orderBy: { createdAt: "desc" },
         });
     },
-    // নতুন: নির্দিষ্ট স্লাইডের ডিটেইলস পাওয়ার জন্য
     async getSliderById(id) {
         return await prisma.heroSlider.findUnique({
             where: { id },
@@ -23,14 +22,12 @@ export const sliderService = {
             },
         });
     },
-    // নতুন: স্লাইড আপডেট বা এডিট করার জন্য
     async updateSlider(id, data) {
         return await prisma.heroSlider.update({
             where: { id },
             data,
         });
     },
-    // নতুন: স্লাইড ডিলিট করার জন্য
     async deleteSlider(id) {
         return await prisma.heroSlider.delete({
             where: { id },

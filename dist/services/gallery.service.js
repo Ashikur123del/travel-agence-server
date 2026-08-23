@@ -1,4 +1,4 @@
-import { prisma } from "../config/database.js"; // আপনার প্রজেক্টের সঠিক পাথ দিন
+import { prisma } from "../config/database.js";
 export const GalleryService = {
     async createGallery(data) {
         return await prisma.gallery.create({ data });
@@ -8,20 +8,17 @@ export const GalleryService = {
             orderBy: { createdAt: "desc" },
         });
     },
-    // Get Single by ID
     async getGalleryById(id) {
         return await prisma.gallery.findUnique({
             where: { id },
         });
     },
-    // Update
     async updateGallery(id, data) {
         return await prisma.gallery.update({
             where: { id },
             data,
         });
     },
-    // Delete
     async deleteGallery(id) {
         return await prisma.gallery.delete({
             where: { id },

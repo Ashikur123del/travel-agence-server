@@ -19,7 +19,6 @@ export const ContactService = {
             data: { isRead },
         });
     },
-    // নতুন যোগ করা হয়েছে: সম্পূর্ণ মেসেজ বা কন্টাক্ট এডিট করার জন্য
     async updateContact(id, data) {
         return await prisma.contactMessage.update({
             where: { id },

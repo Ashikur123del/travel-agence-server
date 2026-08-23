@@ -1,4 +1,3 @@
-// আপনার মেইন প্রিজমা ইনস্ট্যান্স ইমপোর্ট করুন
 import { prisma } from "../config/database.js";
 export const newsService = {
     async getAllNews() {

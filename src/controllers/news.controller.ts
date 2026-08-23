@@ -137,7 +137,6 @@ export const newsController = {
     }
   },
 
-  // ৫. নিউজ ডিলিট করা (Delete)
   async deleteNews(req: Request, res: Response) {
     try {
       const rawId = req.params.id;

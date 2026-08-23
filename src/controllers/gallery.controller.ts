@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { GalleryService } from "../services/gallery.service.js";
 
 export const GalleryController = {
-  // Create
+
   async create(req: any, res: Response) {
     try {
       const imagePath = req.file ? req.file.path : null;
@@ -23,7 +23,6 @@ export const GalleryController = {
     }
   },
 
-  // Get All
   async getAll(req: Request, res: Response) {
     try {
       const galleries = await GalleryService.getAllGalleries();
@@ -33,13 +32,13 @@ export const GalleryController = {
     }
   },
 
-  // Get Single
+
   async getById(req: Request, res: Response) {
     try {
       const rawId = req.params.id;
       const id = Array.isArray(rawId) ? rawId[0] : rawId;
       const gallery = await GalleryService.getGalleryById(id);
-      
+
       if (!gallery) {
         return res.status(404).json({ success: false, message: "Gallery item not found" });
       }
@@ -49,14 +48,13 @@ export const GalleryController = {
     }
   },
 
-  // Update
+
   async update(req: any, res: Response) {
     try {
       const rawId = req.params.id;
       const id = Array.isArray(rawId) ? rawId[0] : rawId;
       const { title, category } = req.body;
-      
-      // নতুন ফাইল আসলে ক্লাউডিনারি পাথ, না হলে আগের ইমেজ লিংক
+
       const imagePath = req.file ? req.file.path : req.body.imageUrl;
 
       const updated = await GalleryService.updateGallery(id, {
@@ -70,12 +68,11 @@ export const GalleryController = {
     }
   },
 
-  // Delete
   async remove(req: Request, res: Response) {
     try {
       const rawId = req.params.id;
       const id = Array.isArray(rawId) ? rawId[0] : rawId;
-      
+
       await GalleryService.deleteGallery(id);
       res.status(200).json({ success: true, message: "Gallery item deleted successfully" });
     } catch (error: any) {
