@@ -13,7 +13,7 @@ const storage = new CloudinaryStorage({
     params: async (req, file) => {
         return {
             folder: "hero-sliders", // ক্লাউডিনারিতে যে ফোল্ডারে ছবি জমা হবে
-            allowed_formats: ["jpg", "jpeg", "png", "webp"],
+            allowed_formats: ["jpg", "jpeg", "png", "webp", "avif"],
             public_id: Date.now() + "-" + file.originalname.split(".")[0],
         };
     },
