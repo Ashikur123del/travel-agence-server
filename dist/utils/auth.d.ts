@@ -9,17 +9,33 @@ export declare const auth: import("better-auth").Auth<{
     };
     trustedOrigins: string[];
     advanced: {
-        cookiePrefix: string;
-        useSecureCookies: true;
-        cookies: {
-            sessionToken: {
-                name: string;
-                options: {
-                    httpOnly: boolean;
-                    sameSite: string;
-                    secure: boolean;
-                    path: string;
-                };
+        useSecureCookies: boolean;
+        crossSubDomainCookies: {
+            enabled: false;
+        };
+    };
+    databaseHooks: {
+        user: {
+            create: {
+                before: (user: {
+                    id: string;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    email: string;
+                    emailVerified: boolean;
+                    name: string;
+                    image?: string | null | undefined;
+                } & Record<string, unknown>) => Promise<{
+                    data: {
+                        id: string;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        email: string;
+                        emailVerified: boolean;
+                        name: string;
+                        image?: string | null | undefined;
+                    } & Record<string, unknown>;
+                }>;
             };
         };
     };
