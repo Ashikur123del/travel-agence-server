@@ -30,7 +30,6 @@ export const ContactService = {
     });
   },
 
-  
   async updateContact(
     id: string,
     data: {
