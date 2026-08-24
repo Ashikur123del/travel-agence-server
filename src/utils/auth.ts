@@ -14,11 +14,12 @@ export const auth = betterAuth({
     updateAge: 60 * 60 * 24,
   },
   trustedOrigins: [
+  "https://travel-agance-hojj-umrah.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:3001",
+  process.env.FRONTEND_URL ||
     "https://travel-agance-hojj-umrah.vercel.app",
-    "http://localhost:3000",
-    "http://localhost:3001",
-    process.env.FRONTEND_URL || "https://travel-agance-hojj-umrah.vercel.app",
-  ],
+],
 
   databaseHooks: {
     user: {

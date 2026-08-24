@@ -16,7 +16,8 @@ export const auth = betterAuth({
         "https://travel-agance-hojj-umrah.vercel.app",
         "http://localhost:3000",
         "http://localhost:3001",
-        process.env.FRONTEND_URL || "https://travel-agance-hojj-umrah.vercel.app",
+        process.env.FRONTEND_URL ||
+            "https://travel-agance-hojj-umrah.vercel.app",
     ],
     databaseHooks: {
         user: {
