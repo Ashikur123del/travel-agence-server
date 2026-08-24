@@ -38,16 +38,16 @@ advanced: {
   },
 },
 
-  databaseHooks: {
-    user: {
-      create: {
-        before: async (user) => {
-          if (user.email !== "asikk2925@gmail.com") {
-            throw new Error("Registration is restricted. Only authorized accounts can sign up.");
-          }
-          return { data: user };
-        },
-      },
-    },
-  },
+  // databaseHooks: {
+  //   user: {
+  //     create: {
+  //       before: async (user) => {
+  //         if (user.email !== "asikk2925@gmail.com") {
+  //           throw new Error("Registration is restricted. Only authorized accounts can sign up.");
+  //         }
+  //         return { data: user };
+  //       },
+  //     },
+  //   },
+  // },
 });
