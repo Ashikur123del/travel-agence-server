@@ -11,6 +11,17 @@ export declare const auth: import("better-auth").Auth<{
     advanced: {
         cookiePrefix: string;
         useSecureCookies: boolean;
+        cookies: {
+            sessionToken: {
+                name: string;
+                options: {
+                    httpOnly: boolean;
+                    sameSite: string;
+                    secure: boolean;
+                    path: string;
+                };
+            };
+        };
     };
     databaseHooks: {
         user: {
