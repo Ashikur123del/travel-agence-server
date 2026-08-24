@@ -8,6 +8,10 @@ export declare const auth: import("better-auth").Auth<{
         updateAge: number;
     };
     trustedOrigins: string[];
+    advanced: {
+        cookiePrefix: string;
+        useSecureCookies: boolean;
+    };
     databaseHooks: {
         user: {
             create: {

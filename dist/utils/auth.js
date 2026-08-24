@@ -19,6 +19,10 @@ export const auth = betterAuth({
         process.env.FRONTEND_URL ||
             "https://travel-agance-hojj-umrah.vercel.app",
     ],
+    advanced: {
+        cookiePrefix: "better-auth",
+        useSecureCookies: process.env.NODE_ENV === "production",
+    },
     databaseHooks: {
         user: {
             create: {
