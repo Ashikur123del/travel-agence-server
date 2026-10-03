@@ -14,24 +14,43 @@ import agentRoutes from "./routes/agentform.route.js";
 
 const app = express();
 
-// CORS
-app.use(
-  cors({
-    origin: [
-      "https://travel-agance-hojj-umrah.vercel.app",
-      "http://localhost:3000",
-      "http://localhost:3001",
-      process.env.FRONTEND_URL,
-    ].filter(Boolean) as string[],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "X-Requested-With",
-    ],
-  })
-);
+// Allowed fixed origins
+const allowedOrigins = [
+  "https://travel-agance-hojj-umrah.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:3001",
+  process.env.FRONTEND_URL,
+].filter(Boolean) as string[];
+
+// CORS Config Function (সব Vercel Preview + Production Domain সাপোর্ট করার জন্য)
+const corsConfig = cors({
+  origin: (origin, callback) => {
+    // 1. Postman/Server-to-Server request (origin না থাকলে)
+    // 2. Allowed list-এ থাকলে
+    // 3. Vercel-এর যেকোনো dynamic deployment URL (.vercel.app) হলে allow করবে
+    if (
+      !origin ||
+      allowedOrigins.includes(origin) ||
+      origin.endsWith(".vercel.app")
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+  ],
+});
+
+// Apply CORS & Handle Preflight Requests
+app.use(corsConfig);
+app.options("/*path", corsConfig);
 
 app.use(
   helmet({
