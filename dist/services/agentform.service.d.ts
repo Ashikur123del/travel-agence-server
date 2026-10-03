@@ -1,0 +1,158 @@
+export declare const agentFormService: {
+    getAllAgents(): Promise<({
+        user: {
+            id: string;
+            name: string;
+            email: string;
+            emailVerified: boolean;
+            image: string | null;
+            role: string | null;
+            banned: boolean | null;
+            banReason: string | null;
+            banExpires: Date | null;
+            createdAt: Date;
+            updatedAt: Date;
+        } | null;
+    } & {
+        id: string;
+        name: string;
+        fathersName: string;
+        mobileNo: string;
+        bkashNumber: string;
+        presentAddress: string;
+        permanentAddress: string;
+        emergencyName: string;
+        emergencyRelation: string;
+        emergencyMobile: string;
+        emergencyAddress: string;
+        photo: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string | null;
+    })[]>;
+    getAgentById(id: string): Promise<({
+        user: {
+            id: string;
+            name: string;
+            email: string;
+            emailVerified: boolean;
+            image: string | null;
+            role: string | null;
+            banned: boolean | null;
+            banReason: string | null;
+            banExpires: Date | null;
+            createdAt: Date;
+            updatedAt: Date;
+        } | null;
+    } & {
+        id: string;
+        name: string;
+        fathersName: string;
+        mobileNo: string;
+        bkashNumber: string;
+        presentAddress: string;
+        permanentAddress: string;
+        emergencyName: string;
+        emergencyRelation: string;
+        emergencyMobile: string;
+        emergencyAddress: string;
+        photo: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string | null;
+    }) | null>;
+    verifyAgentByNameAndMobile(name: string, mobileNo: string): Promise<({
+        user: {
+            id: string;
+            name: string;
+            email: string;
+            emailVerified: boolean;
+            image: string | null;
+            role: string | null;
+            banned: boolean | null;
+            banReason: string | null;
+            banExpires: Date | null;
+            createdAt: Date;
+            updatedAt: Date;
+        } | null;
+    } & {
+        id: string;
+        name: string;
+        fathersName: string;
+        mobileNo: string;
+        bkashNumber: string;
+        presentAddress: string;
+        permanentAddress: string;
+        emergencyName: string;
+        emergencyRelation: string;
+        emergencyMobile: string;
+        emergencyAddress: string;
+        photo: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string | null;
+    }) | null>;
+    createAgent(data: {
+        name: string;
+        fathersName: string;
+        mobileNo: string;
+        bkashNumber: string;
+        presentAddress: string;
+        permanentAddress: string;
+        emergencyName: string;
+        emergencyRelation: string;
+        emergencyMobile: string;
+        emergencyAddress: string;
+        photo?: string;
+    }, userId?: string): Promise<{
+        id: string;
+        name: string;
+        fathersName: string;
+        mobileNo: string;
+        bkashNumber: string;
+        presentAddress: string;
+        permanentAddress: string;
+        emergencyName: string;
+        emergencyRelation: string;
+        emergencyMobile: string;
+        emergencyAddress: string;
+        photo: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string | null;
+    }>;
+    updateAgent(id: string, data: any): Promise<{
+        id: string;
+        name: string;
+        fathersName: string;
+        mobileNo: string;
+        bkashNumber: string;
+        presentAddress: string;
+        permanentAddress: string;
+        emergencyName: string;
+        emergencyRelation: string;
+        emergencyMobile: string;
+        emergencyAddress: string;
+        photo: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string | null;
+    }>;
+    deleteAgent(id: string): Promise<{
+        id: string;
+        name: string;
+        fathersName: string;
+        mobileNo: string;
+        bkashNumber: string;
+        presentAddress: string;
+        permanentAddress: string;
+        emergencyName: string;
+        emergencyRelation: string;
+        emergencyMobile: string;
+        emergencyAddress: string;
+        photo: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string | null;
+    }>;
+};

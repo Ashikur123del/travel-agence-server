@@ -9,6 +9,7 @@ import sliderRoutes from "./routes/slider.route.js";
 import newsRoutes from "./routes/news.route.js";
 import { galleryRoutes } from "./routes/gallery.route.js";
 import contactRoutes from "./routes/contact.route.js";
+import agentRoutes from "./routes/agentform.route.js";
 const app = express();
 // CORS
 app.use(cors({
@@ -42,5 +43,6 @@ app.use("/api/sliders", sliderRoutes);
 app.use("/api/news", newsRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/contacts", contactRoutes);
+app.use("/api/agents", agentRoutes);
 export default app;
 //# sourceMappingURL=app.js.map

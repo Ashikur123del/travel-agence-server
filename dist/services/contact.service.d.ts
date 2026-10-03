@@ -14,6 +14,7 @@ export declare const ContactService: {
         message: string;
         isRead: boolean;
         createdAt: Date;
+        userId: string | null;
     }>;
     getAllContacts(): Promise<{
         id: string;
@@ -24,6 +25,7 @@ export declare const ContactService: {
         message: string;
         isRead: boolean;
         createdAt: Date;
+        userId: string | null;
     }[]>;
     getContactById(id: string): Promise<{
         id: string;
@@ -34,6 +36,7 @@ export declare const ContactService: {
         message: string;
         isRead: boolean;
         createdAt: Date;
+        userId: string | null;
     } | null>;
     updateContactStatus(id: string, isRead: boolean): Promise<{
         id: string;
@@ -44,6 +47,7 @@ export declare const ContactService: {
         message: string;
         isRead: boolean;
         createdAt: Date;
+        userId: string | null;
     }>;
     updateContact(id: string, data: {
         name?: string;
@@ -60,6 +64,7 @@ export declare const ContactService: {
         message: string;
         isRead: boolean;
         createdAt: Date;
+        userId: string | null;
     }>;
     deleteContact(id: string): Promise<{
         id: string;
@@ -70,5 +75,6 @@ export declare const ContactService: {
         message: string;
         isRead: boolean;
         createdAt: Date;
+        userId: string | null;
     }>;
 };

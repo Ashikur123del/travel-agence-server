@@ -9,16 +9,43 @@ generator client {
 model User {
   id            String    @id
   name          String
-  email         String
+  email         String    @unique
   emailVerified Boolean
   image         String?
+  role          String?   @default("user")
+  banned        Boolean?  @default(false)
+  banReason     String?
+  banExpires    DateTime?
   createdAt     DateTime
   updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
 
-  @@unique([email])
+  sessions Session[]
+  accounts Account[]
+
+  agents          Agent[]
+  contactMessages ContactMessage[]
+
   @@map("user")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  issuer                String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
 }
 
 model Session {
@@ -36,25 +63,6 @@ model Session {
   @@map("session")
 }
 
-model Account {
-  id                    String    @id
-  accountId             String
-  providerId            String
-  userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  accessToken           String?
-  refreshToken          String?
-  idToken               String?
-  accessTokenExpiresAt  DateTime?
-  refreshTokenExpiresAt DateTime?
-  scope                 String?
-  password              String?
-  createdAt             DateTime
-  updatedAt             DateTime
-
-  @@map("account")
-}
-
 model Verification {
   id         String    @id
   identifier String
@@ -66,22 +74,20 @@ model Verification {
   @@map("verification")
 }
 
-
+// Global Content (যা Admin কন্ট্রোল করবে)
 model HeroSlider {
-  id           String   @id @default(cuid())
-  image        String
-  alt          String?  @default("Slide image")
-  firstText    String
+  id            String   @id @default(cuid())
+  image         String
+  alt           String?  @default("Slide image")
+  firstText     String
   highlightText String
-  secondText   String
-  description  String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  secondText    String
+  description   String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   @@map("hero_sliders")
 }
-
-
 
 model News {
   id            String   @id @default(uuid())
@@ -100,7 +106,6 @@ model News {
   updatedAt     DateTime @updatedAt
 }
 
-
 model Gallery {
   id        String   @id @default(uuid())
   title     String
@@ -110,7 +115,7 @@ model Gallery {
   updatedAt DateTime @updatedAt
 }
 
-
+// User-Specific Data Models
 model ContactMessage {
   id        String   @id @default(uuid())
   name      String
@@ -120,4 +125,26 @@ model ContactMessage {
   message   String
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Agent {
+  id                String   @id @default(uuid())
+  name              String
+  fathersName       String
+  mobileNo          String
+  bkashNumber       String
+  presentAddress    String
+  permanentAddress  String
+  emergencyName     String
+  emergencyRelation String
+  emergencyMobile   String
+  emergencyAddress  String
+  photo             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
