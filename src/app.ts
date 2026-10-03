@@ -66,7 +66,7 @@ app.all("/api/auth/*path", toNodeHandler(auth));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Static files
+
 app.use("/uploads", express.static(path.join(process.cwd(), "public/uploads")));
 
 // Other routes
