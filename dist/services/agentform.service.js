@@ -12,27 +12,32 @@ export const agentFormService = {
             include: { user: true },
         });
     },
-    // 🔽 NEW: Name এবং Mobile Number দিয়ে Agent Verify করার মেথড
-    async verifyAgentByNameAndMobile(name, mobileNo) {
+    async verifyAgentByMobile(mobileNo) {
         return await prisma.agent.findFirst({
             where: {
                 mobileNo: mobileNo.trim(),
-                name: {
-                    equals: name.trim(),
-                    mode: "insensitive", // Case-insensitive matching
-                },
             },
             include: { user: true },
         });
     },
-    // নতুন এজেন্ট তৈরি এবং ইউজারের সাথে লিঙ্ক + রোল আপডেট করার জন্য
-    async createAgent(data, userId // Logged-in user-er ID
-    ) {
+    async createAgent(data, userId) {
         return await prisma.$transaction(async (tx) => {
             const agent = await tx.agent.create({
                 data: {
-                    ...data,
-                    userId: userId || null,
+                    name: data.name,
+                    fathersName: data.fathersName,
+                    mobileNo: data.mobileNo,
+                    whatsAppNumber: data.whatsAppNumber || undefined,
+                    bkashNumber: data.bkashNumber ?? "",
+                    bankAccountNumber: data.bankAccountNumber || undefined,
+                    presentAddress: data.presentAddress,
+                    permanentAddress: data.permanentAddress,
+                    emergencyName: data.emergencyName,
+                    emergencyRelation: data.emergencyRelation,
+                    emergencyMobile: data.emergencyMobile,
+                    emergencyAddress: data.emergencyAddress,
+                    photo: data.photo || undefined,
+                    userId: userId || undefined,
                 },
             });
             if (userId) {

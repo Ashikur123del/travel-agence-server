@@ -1,3 +1,4 @@
+import { Agent } from "../type/agent.type.js";
 export declare const agentFormService: {
     getAllAgents(): Promise<({
         user: {
@@ -18,7 +19,9 @@ export declare const agentFormService: {
         name: string;
         fathersName: string;
         mobileNo: string;
-        bkashNumber: string;
+        whatsAppNumber: string | null;
+        bkashNumber: string | null;
+        bankAccountNumber: string | null;
         presentAddress: string;
         permanentAddress: string;
         emergencyName: string;
@@ -49,7 +52,9 @@ export declare const agentFormService: {
         name: string;
         fathersName: string;
         mobileNo: string;
-        bkashNumber: string;
+        whatsAppNumber: string | null;
+        bkashNumber: string | null;
+        bankAccountNumber: string | null;
         presentAddress: string;
         permanentAddress: string;
         emergencyName: string;
@@ -61,7 +66,7 @@ export declare const agentFormService: {
         updatedAt: Date;
         userId: string | null;
     }) | null>;
-    verifyAgentByNameAndMobile(name: string, mobileNo: string): Promise<({
+    verifyAgentByMobile(mobileNo: string): Promise<({
         user: {
             id: string;
             name: string;
@@ -80,7 +85,9 @@ export declare const agentFormService: {
         name: string;
         fathersName: string;
         mobileNo: string;
-        bkashNumber: string;
+        whatsAppNumber: string | null;
+        bkashNumber: string | null;
+        bankAccountNumber: string | null;
         presentAddress: string;
         permanentAddress: string;
         emergencyName: string;
@@ -92,24 +99,14 @@ export declare const agentFormService: {
         updatedAt: Date;
         userId: string | null;
     }) | null>;
-    createAgent(data: {
-        name: string;
-        fathersName: string;
-        mobileNo: string;
-        bkashNumber: string;
-        presentAddress: string;
-        permanentAddress: string;
-        emergencyName: string;
-        emergencyRelation: string;
-        emergencyMobile: string;
-        emergencyAddress: string;
-        photo?: string;
-    }, userId?: string): Promise<{
+    createAgent(data: Agent, userId?: string): Promise<{
         id: string;
         name: string;
         fathersName: string;
         mobileNo: string;
-        bkashNumber: string;
+        whatsAppNumber: string | null;
+        bkashNumber: string | null;
+        bankAccountNumber: string | null;
         presentAddress: string;
         permanentAddress: string;
         emergencyName: string;
@@ -121,12 +118,14 @@ export declare const agentFormService: {
         updatedAt: Date;
         userId: string | null;
     }>;
-    updateAgent(id: string, data: any): Promise<{
+    updateAgent(id: string, data: Partial<Agent>): Promise<{
         id: string;
         name: string;
         fathersName: string;
         mobileNo: string;
-        bkashNumber: string;
+        whatsAppNumber: string | null;
+        bkashNumber: string | null;
+        bankAccountNumber: string | null;
         presentAddress: string;
         permanentAddress: string;
         emergencyName: string;
@@ -143,7 +142,9 @@ export declare const agentFormService: {
         name: string;
         fathersName: string;
         mobileNo: string;
-        bkashNumber: string;
+        whatsAppNumber: string | null;
+        bkashNumber: string | null;
+        bankAccountNumber: string | null;
         presentAddress: string;
         permanentAddress: string;
         emergencyName: string;

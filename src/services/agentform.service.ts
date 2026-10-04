@@ -1,4 +1,5 @@
 import { prisma } from "../config/database.js";
+import { Agent } from "../type/agent.type.js";
 
 export const agentFormService = {
     async getAllAgents() {
@@ -15,42 +16,36 @@ export const agentFormService = {
         });
     },
 
-    // 🔽 NEW: Name এবং Mobile Number দিয়ে Agent Verify করার মেথড
-    async verifyAgentByNameAndMobile(name: string, mobileNo: string) {
+    async verifyAgentByMobile(mobileNo: string) {
         return await prisma.agent.findFirst({
             where: {
                 mobileNo: mobileNo.trim(),
-                name: {
-                    equals: name.trim(),
-                    mode: "insensitive", // Case-insensitive matching
-                },
             },
             include: { user: true },
         });
     },
 
-    // নতুন এজেন্ট তৈরি এবং ইউজারের সাথে লিঙ্ক + রোল আপডেট করার জন্য
     async createAgent(
-        data: {
-            name: string;
-            fathersName: string;
-            mobileNo: string;
-            bkashNumber: string;
-            presentAddress: string;
-            permanentAddress: string;
-            emergencyName: string;
-            emergencyRelation: string;
-            emergencyMobile: string;
-            emergencyAddress: string;
-            photo?: string;
-        },
-        userId?: string // Logged-in user-er ID
+        data: Agent,
+        userId?: string
     ) {
         return await prisma.$transaction(async (tx) => {
             const agent = await tx.agent.create({
                 data: {
-                    ...data,
-                    userId: userId || null,
+                    name: data.name,
+                    fathersName: data.fathersName,
+                    mobileNo: data.mobileNo,
+                    whatsAppNumber: data.whatsAppNumber || undefined,
+                    bkashNumber: data.bkashNumber ?? "",
+                    bankAccountNumber: data.bankAccountNumber || undefined,
+                    presentAddress: data.presentAddress,
+                    permanentAddress: data.permanentAddress,
+                    emergencyName: data.emergencyName,
+                    emergencyRelation: data.emergencyRelation,
+                    emergencyMobile: data.emergencyMobile,
+                    emergencyAddress: data.emergencyAddress,
+                    photo: data.photo || undefined,
+                    userId: userId || undefined,
                 },
             });
 
@@ -64,8 +59,7 @@ export const agentFormService = {
             return agent;
         });
     },
-
-    async updateAgent(id: string, data: any) {
+    async updateAgent(id: string, data: Partial<Agent>) {
         return await prisma.agent.update({
             where: { id },
             data,

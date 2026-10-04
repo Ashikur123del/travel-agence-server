@@ -13,7 +13,6 @@ const getRouteParamId = (value: string | string[] | undefined): string => {
 };
 
 export const agentFormController = {
-    // GET: All Agents
     async getAgents(req: Request, res: Response) {
         try {
             const agents = await agentFormService.getAllAgents();
@@ -24,7 +23,6 @@ export const agentFormController = {
         }
     },
 
-    // GET: Single Agent by ID
     async getAgentById(req: Request, res: Response) {
         try {
             const id = getRouteParamId(req.params.id);
@@ -41,22 +39,21 @@ export const agentFormController = {
         }
     },
 
-    // 🔽 NEW: POST: Verify Agent by Name & Mobile No
     async verifyAgent(req: Request, res: Response) {
         try {
-            const { name, mobileNo } = req.body;
+            const { mobileNo } = req.body;
 
-            if (!name || !mobileNo) {
+            if (!mobileNo) {
                 return res.status(400).json({
-                    error: "Both Name and Mobile Number are required for verification",
+                    error: "Mobile Number is required",
                 });
             }
 
-            const agent = await agentFormService.verifyAgentByNameAndMobile(name, mobileNo);
+            const agent = await agentFormService.verifyAgentByMobile(mobileNo);
 
             if (!agent) {
                 return res.status(404).json({
-                    error: "No agent profile found matching this Name and Mobile number",
+                    error: "No agent profile found matching this Mobile Number",
                 });
             }
 
@@ -70,7 +67,6 @@ export const agentFormController = {
         }
     },
 
-    // POST: Create Agent
     async createAgent(req: MulterRequest, res: Response) {
         try {
             const photoPath = req.file ? req.file.path : null;
@@ -79,7 +75,9 @@ export const agentFormController = {
                 name,
                 fathersName,
                 mobileNo,
+                whatsAppNumber,      // 🟢 যুক্ত করা হয়েছে
                 bkashNumber,
+                bankAccountNumber,  // 🟢 যুক্ত করা হয়েছে
                 presentAddress,
                 permanentAddress,
                 emergencyName,
@@ -88,11 +86,11 @@ export const agentFormController = {
                 emergencyAddress,
             } = req.body;
 
+            // ⚠️ bkashNumber বা bankAccountNumber কে আবশ্যক (Required) ধরা হয়নি কারণ এগুলো ডায়নামিক
             const requiredFields: Record<string, any> = {
                 name,
                 fathersName,
                 mobileNo,
-                bkashNumber,
                 presentAddress,
                 permanentAddress,
                 emergencyName,
@@ -116,7 +114,9 @@ export const agentFormController = {
                 name,
                 fathersName,
                 mobileNo,
-                bkashNumber,
+                whatsAppNumber: whatsAppNumber || undefined,       // 🟢 optional
+                bkashNumber: bkashNumber || undefined,             // 🟢 optional
+                bankAccountNumber: bankAccountNumber || undefined, // 🟢 optional
                 presentAddress,
                 permanentAddress,
                 emergencyName,
@@ -149,19 +149,15 @@ export const agentFormController = {
             if (req.body.name) updateData.name = req.body.name;
             if (req.body.fathersName) updateData.fathersName = req.body.fathersName;
             if (req.body.mobileNo) updateData.mobileNo = req.body.mobileNo;
-            if (req.body.bkashNumber) updateData.bkashNumber = req.body.bkashNumber;
-            if (req.body.presentAddress)
-                updateData.presentAddress = req.body.presentAddress;
-            if (req.body.permanentAddress)
-                updateData.permanentAddress = req.body.permanentAddress;
-            if (req.body.emergencyName)
-                updateData.emergencyName = req.body.emergencyName;
-            if (req.body.emergencyRelation)
-                updateData.emergencyRelation = req.body.emergencyRelation;
-            if (req.body.emergencyMobile)
-                updateData.emergencyMobile = req.body.emergencyMobile;
-            if (req.body.emergencyAddress)
-                updateData.emergencyAddress = req.body.emergencyAddress;
+            if (req.body.whatsAppNumber !== undefined) updateData.whatsAppNumber = req.body.whatsAppNumber; // 🟢
+            if (req.body.bkashNumber !== undefined) updateData.bkashNumber = req.body.bkashNumber;           // 🟢
+            if (req.body.bankAccountNumber !== undefined) updateData.bankAccountNumber = req.body.bankAccountNumber; // 🟢
+            if (req.body.presentAddress) updateData.presentAddress = req.body.presentAddress;
+            if (req.body.permanentAddress) updateData.permanentAddress = req.body.permanentAddress;
+            if (req.body.emergencyName) updateData.emergencyName = req.body.emergencyName;
+            if (req.body.emergencyRelation) updateData.emergencyRelation = req.body.emergencyRelation;
+            if (req.body.emergencyMobile) updateData.emergencyMobile = req.body.emergencyMobile;
+            if (req.body.emergencyAddress) updateData.emergencyAddress = req.body.emergencyAddress;
 
             const updatedAgent = await agentFormService.updateAgent(id, updateData);
 

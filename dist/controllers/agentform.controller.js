@@ -6,7 +6,6 @@ const getRouteParamId = (value) => {
     return value ?? "";
 };
 export const agentFormController = {
-    // GET: All Agents
     async getAgents(req, res) {
         try {
             const agents = await agentFormService.getAllAgents();
@@ -17,7 +16,6 @@ export const agentFormController = {
             return res.status(500).json({ error: "Failed to fetch agents" });
         }
     },
-    // GET: Single Agent by ID
     async getAgentById(req, res) {
         try {
             const id = getRouteParamId(req.params.id);
@@ -32,19 +30,18 @@ export const agentFormController = {
             return res.status(500).json({ error: "Failed to fetch agent details" });
         }
     },
-    // 🔽 NEW: POST: Verify Agent by Name & Mobile No
     async verifyAgent(req, res) {
         try {
-            const { name, mobileNo } = req.body;
-            if (!name || !mobileNo) {
+            const { mobileNo } = req.body;
+            if (!mobileNo) {
                 return res.status(400).json({
-                    error: "Both Name and Mobile Number are required for verification",
+                    error: "Mobile Number is required",
                 });
             }
-            const agent = await agentFormService.verifyAgentByNameAndMobile(name, mobileNo);
+            const agent = await agentFormService.verifyAgentByMobile(mobileNo);
             if (!agent) {
                 return res.status(404).json({
-                    error: "No agent profile found matching this Name and Mobile number",
+                    error: "No agent profile found matching this Mobile Number",
                 });
             }
             return res.status(200).json({
@@ -57,16 +54,17 @@ export const agentFormController = {
             return res.status(500).json({ error: error?.message || "Verification failed" });
         }
     },
-    // POST: Create Agent
     async createAgent(req, res) {
         try {
             const photoPath = req.file ? req.file.path : null;
-            const { name, fathersName, mobileNo, bkashNumber, presentAddress, permanentAddress, emergencyName, emergencyRelation, emergencyMobile, emergencyAddress, } = req.body;
+            const { name, fathersName, mobileNo, whatsAppNumber, // 🟢 যুক্ত করা হয়েছে
+            bkashNumber, bankAccountNumber, // 🟢 যুক্ত করা হয়েছে
+            presentAddress, permanentAddress, emergencyName, emergencyRelation, emergencyMobile, emergencyAddress, } = req.body;
+            // ⚠️ bkashNumber বা bankAccountNumber কে আবশ্যক (Required) ধরা হয়নি কারণ এগুলো ডায়নামিক
             const requiredFields = {
                 name,
                 fathersName,
                 mobileNo,
-                bkashNumber,
                 presentAddress,
                 permanentAddress,
                 emergencyName,
@@ -85,7 +83,9 @@ export const agentFormController = {
                 name,
                 fathersName,
                 mobileNo,
-                bkashNumber,
+                whatsAppNumber: whatsAppNumber || undefined, // 🟢 optional
+                bkashNumber: bkashNumber || undefined, // 🟢 optional
+                bankAccountNumber: bankAccountNumber || undefined, // 🟢 optional
                 presentAddress,
                 permanentAddress,
                 emergencyName,
@@ -119,8 +119,12 @@ export const agentFormController = {
                 updateData.fathersName = req.body.fathersName;
             if (req.body.mobileNo)
                 updateData.mobileNo = req.body.mobileNo;
-            if (req.body.bkashNumber)
-                updateData.bkashNumber = req.body.bkashNumber;
+            if (req.body.whatsAppNumber !== undefined)
+                updateData.whatsAppNumber = req.body.whatsAppNumber; // 🟢
+            if (req.body.bkashNumber !== undefined)
+                updateData.bkashNumber = req.body.bkashNumber; // 🟢
+            if (req.body.bankAccountNumber !== undefined)
+                updateData.bankAccountNumber = req.body.bankAccountNumber; // 🟢
             if (req.body.presentAddress)
                 updateData.presentAddress = req.body.presentAddress;
             if (req.body.permanentAddress)
