@@ -11,6 +11,7 @@ import newsRoutes from "./routes/news.route.js";
 import { galleryRoutes } from "./routes/gallery.route.js";
 import contactRoutes from "./routes/contact.route.js";
 import agentRoutes from "./routes/agentform.route.js";
+import hajjahRoutes from './routes/hajjah.route.js'
 
 const app = express();
 
@@ -75,5 +76,6 @@ app.use("/api/news", newsRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/contacts", contactRoutes);
 app.use("/api/agents", agentRoutes);
+app.use("/api/hajjah", hajjahRoutes);
 
 export default app;

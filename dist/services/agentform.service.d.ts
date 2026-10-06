@@ -1,4 +1,3 @@
-import { Agent } from "../type/agent.type.js";
 export declare const agentFormService: {
     getAllAgents(): Promise<({
         user: {
@@ -66,7 +65,26 @@ export declare const agentFormService: {
         updatedAt: Date;
         userId: string | null;
     }) | null>;
-    verifyAgentByMobile(mobileNo: string): Promise<({
+    findByMobile(mobileNo: string): Promise<{
+        id: string;
+        name: string;
+        fathersName: string;
+        mobileNo: string;
+        whatsAppNumber: string | null;
+        bkashNumber: string | null;
+        bankAccountNumber: string | null;
+        presentAddress: string;
+        permanentAddress: string;
+        emergencyName: string;
+        emergencyRelation: string;
+        emergencyMobile: string;
+        emergencyAddress: string;
+        photo: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string | null;
+    } | null>;
+    findByMobileWithUser(mobileNo: string): Promise<({
         user: {
             id: string;
             name: string;
@@ -99,7 +117,24 @@ export declare const agentFormService: {
         updatedAt: Date;
         userId: string | null;
     }) | null>;
-    createAgent(data: Agent, userId?: string): Promise<{
+    createAgentWithUser(data: {
+        agent: Record<string, any>;
+        userId: string;
+    }): Promise<{
+        user: {
+            id: string;
+            name: string;
+            email: string;
+            emailVerified: boolean;
+            image: string | null;
+            role: string | null;
+            banned: boolean | null;
+            banReason: string | null;
+            banExpires: Date | null;
+            createdAt: Date;
+            updatedAt: Date;
+        } | null;
+    } & {
         id: string;
         name: string;
         fathersName: string;
@@ -118,7 +153,7 @@ export declare const agentFormService: {
         updatedAt: Date;
         userId: string | null;
     }>;
-    updateAgent(id: string, data: Partial<Agent>): Promise<{
+    updateAgent(id: string, data: Record<string, any>): Promise<{
         id: string;
         name: string;
         fathersName: string;
@@ -137,23 +172,5 @@ export declare const agentFormService: {
         updatedAt: Date;
         userId: string | null;
     }>;
-    deleteAgent(id: string): Promise<{
-        id: string;
-        name: string;
-        fathersName: string;
-        mobileNo: string;
-        whatsAppNumber: string | null;
-        bkashNumber: string | null;
-        bankAccountNumber: string | null;
-        presentAddress: string;
-        permanentAddress: string;
-        emergencyName: string;
-        emergencyRelation: string;
-        emergencyMobile: string;
-        emergencyAddress: string;
-        photo: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-        userId: string | null;
-    }>;
+    deleteAgent(id: string): Promise<void>;
 };

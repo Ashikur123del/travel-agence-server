@@ -6,24 +6,28 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// =====================================================
+// AUTH (better-auth)
+// =====================================================
+
 model User {
   id            String    @id
   name          String
   email         String    @unique
   emailVerified Boolean
   image         String?
-  role          String?   @default("user")
+  role          String?   @default("user") // "admin" | "agent" | "user"
   banned        Boolean?  @default(false)
   banReason     String?
   banExpires    DateTime?
   createdAt     DateTime
   updatedAt     DateTime
 
-  sessions Session[]
-  accounts Account[]
-
-  agents          Agent[]
+  sessions        Session[]
+  accounts        Account[]
+  agent           Agent? // এক user = এক agent
   contactMessages ContactMessage[]
+  reviewedHajjahs Hajjah[] @relation("HajjahReviewer")
 
   @@map("user")
 }
@@ -74,7 +78,10 @@ model Verification {
   @@map("verification")
 }
 
-// Global Content (যা Admin কন্ট্রোল করবে)
+// =====================================================
+// GLOBAL CONTENT (Admin control)
+// =====================================================
+
 model HeroSlider {
   id            String   @id @default(cuid())
   image         String
@@ -115,7 +122,10 @@ model Gallery {
   updatedAt DateTime @updatedAt
 }
 
-// User-Specific Data Models
+// =====================================================
+// CONTACT
+// =====================================================
+
 model ContactMessage {
   id        String   @id @default(uuid())
   name      String
@@ -125,9 +135,18 @@ model ContactMessage {
   message   String
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
-  userId String?
-  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+// =====================================================
+// AGENT + HAJJAH
+// =====================================================
+
+enum RegistrationStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 model Agent {
@@ -135,9 +154,9 @@ model Agent {
   name              String
   fathersName       String
   mobileNo          String
-  whatsAppNumber    String? 
-  bkashNumber       String?  
-  bankAccountNumber String?  
+  whatsAppNumber    String?
+  bkashNumber       String?
+  bankAccountNumber String?
   presentAddress    String
   permanentAddress  String
   emergencyName     String
@@ -147,6 +166,86 @@ model Agent {
   photo             String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
-  userId            String?
-  user              User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // এক User = এক Agent
+  userId String? @unique
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  hajjahs Hajjah[]
+}
+
+model Hajjah {
+  id   String @id @default(uuid())
+  slNo Int    @unique @default(autoincrement())
+
+  // ---------- Review ----------
+  status       RegistrationStatus @default(PENDING)
+  reviewedById String?
+  reviewedBy   User?              @relation("HajjahReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  reviewedAt   DateTime?
+  rejectReason String?
+
+  // ---------- Personal ----------
+  name             String
+  fathersName      String
+  mothersName      String? 
+  dob              DateTime @db.Date
+  gender           String   @default("Female")
+  maritalStatus    String   @default("Married")
+  nidNo            String   @unique
+  mobileNo         String
+  whatsappNo       String?
+  district         String?
+  presentAddress   String
+  permanentAddress String?
+  photo            String?
+
+  // ---------- Passport ----------
+  passportNo         String    @unique
+  passportIssueDate  DateTime? @db.Date
+  passportExpiry     DateTime  @db.Date
+  passportIssuePlace String?
+
+  // ---------- Mahram ----------
+  mahramName       String?
+  mahramRelation   String?
+  mahramMobile     String?
+  mahramPassportNo String?
+
+  // ---------- Health & Emergency ----------
+  bloodGroup               String  @default("O+")
+  medicalConditions        String?
+  meningitisVaccine        Boolean @default(false)
+  emergencyContactName     String
+  emergencyContactRelation String  @default("Relative")
+  emergencyContactPhone    String
+
+  // ---------- Travel ----------
+  travelDate        DateTime? @db.Date
+  roomType          String    @default("Quad")
+  previousHajj      Boolean   @default(false)
+  specialAssistance String?
+  notes             String?
+
+  // ---------- Package & Payment ----------
+  packageType   String  @default("Economy")
+  totalAmount   Int     @default(0)
+  paidAmount    Int     @default(0)
+  paymentMethod String  @default("bKash")
+  paymentNumber String?
+  transactionId String?
+  referredBy    String?
+
+  // ---------- Agent (কে রেজিস্টার করেছে) ----------
+  agentId String?
+  agent   Agent?  @relation(fields: [agentId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+  @@index([mobileNo])
+  @@index([status])
+  @@index([agentId])
+  @@index([createdAt])
 }

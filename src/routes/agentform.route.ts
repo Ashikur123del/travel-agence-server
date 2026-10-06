@@ -1,25 +1,36 @@
 import { Router } from "express";
 import { agentFormController } from "../controllers/agentform.controller.js";
-import { upload } from "../middlewares/upload.middleware.js";
+import { uploadTo } from "../middlewares/upload.middleware.js";
+import { requireAdmin, requireAuth } from "../middlewares/auth.middleware.js";
 
 const router = Router();
+const upload = uploadTo("agents");
 
-// GET all agents
-router.get("/", agentFormController.getAgents);
-
-// 🔽 NEW: POST verify agent by name and mobile number
-router.post("/verify", agentFormController.verifyAgent);
-
-// GET single agent by ID
-router.get("/:id", agentFormController.getAgentById);
-
-// POST create agent (Image upload with field name 'photo')
+// Public — Become Agent application
 router.post("/", upload.single("photo"), agentFormController.createAgent);
 
-// PATCH update agent details/photo
-router.patch("/:id", upload.single("photo"), agentFormController.updateAgent);
+// Agent login (mobile + password)
+router.post("/verify", agentFormController.verifyAgent);
 
-// DELETE agent by ID
-router.delete("/:id", agentFormController.deleteAgent);
+// Agent nijer profile: dekha ar edit kora (delete nai)
+// ⚠️ "/me" ke obosshoy "/:id" er age rakhte hobe
+router.get("/me", requireAuth, agentFormController.getMyProfile);
+router.patch(
+    "/me",
+    requireAuth,
+    upload.single("photo"),
+    agentFormController.updateMyProfile
+);
+
+// Admin only — list / details / update / delete
+router.get("/", requireAdmin, agentFormController.getAgents);
+router.get("/:id", requireAdmin, agentFormController.getAgentById);
+router.patch(
+    "/:id",
+    requireAdmin,
+    upload.single("photo"),
+    agentFormController.updateAgent
+);
+router.delete("/:id", requireAdmin, agentFormController.deleteAgent);
 
 export default router;

@@ -1,7 +1,7 @@
 import { prisma } from "../config/database.js";
-import { Agent } from "../type/agent.type.js";
 
 export const agentFormService = {
+
     async getAllAgents() {
         return await prisma.agent.findMany({
             orderBy: { createdAt: "desc" },
@@ -16,50 +16,57 @@ export const agentFormService = {
         });
     },
 
-    async verifyAgentByMobile(mobileNo: string) {
+    async findByMobile(mobileNo: string) {
         return await prisma.agent.findFirst({
-            where: {
-                mobileNo: mobileNo.trim(),
-            },
+            where: { mobileNo: mobileNo.trim() },
+        });
+    },
+
+    // 👈 verifyAgent-এর জন্য এই মেথডটি যোগ করা হয়েছে
+    async findByMobileWithUser(mobileNo: string) {
+        return await prisma.agent.findFirst({
+            where: { mobileNo: mobileNo.trim() },
             include: { user: true },
         });
     },
 
-    async createAgent(
-        data: Agent,
-        userId?: string
-    ) {
+    async createAgentWithUser(data: {
+        agent: Record<string, any>;
+        userId: string;
+    }) {
         return await prisma.$transaction(async (tx) => {
-            const agent = await tx.agent.create({
-                data: {
-                    name: data.name,
-                    fathersName: data.fathersName,
-                    mobileNo: data.mobileNo,
-                    whatsAppNumber: data.whatsAppNumber || undefined,
-                    bkashNumber: data.bkashNumber ?? "",
-                    bankAccountNumber: data.bankAccountNumber || undefined,
-                    presentAddress: data.presentAddress,
-                    permanentAddress: data.permanentAddress,
-                    emergencyName: data.emergencyName,
-                    emergencyRelation: data.emergencyRelation,
-                    emergencyMobile: data.emergencyMobile,
-                    emergencyAddress: data.emergencyAddress,
-                    photo: data.photo || undefined,
-                    userId: userId || undefined,
-                },
+            // ১. ইউজারের রোল 'agent' করা
+            await tx.user.update({
+                where: { id: data.userId },
+                data: { role: "agent" },
             });
 
-            if (userId) {
-                await tx.user.update({
-                    where: { id: userId },
-                    data: { role: "agent" },
-                });
-            }
+            // ২. এজেন্টের প্রোফাইল তৈরি
+            const agent = await tx.agent.create({
+                data: {
+                    name: data.agent.name,
+                    fathersName: data.agent.fathersName,
+                    mobileNo: data.agent.mobileNo,
+                    whatsAppNumber: data.agent.whatsAppNumber || undefined,
+                    bkashNumber: data.agent.bkashNumber || undefined,
+                    bankAccountNumber: data.agent.bankAccountNumber || undefined,
+                    presentAddress: data.agent.presentAddress,
+                    permanentAddress: data.agent.permanentAddress,
+                    emergencyName: data.agent.emergencyName,
+                    emergencyRelation: data.agent.emergencyRelation,
+                    emergencyMobile: data.agent.emergencyMobile,
+                    emergencyAddress: data.agent.emergencyAddress,
+                    photo: data.agent.photo || undefined,
+                    userId: data.userId,
+                },
+                include: { user: true },
+            });
 
             return agent;
         });
     },
-    async updateAgent(id: string, data: Partial<Agent>) {
+
+    async updateAgent(id: string, data: Record<string, any>) {
         return await prisma.agent.update({
             where: { id },
             data,
@@ -67,8 +74,21 @@ export const agentFormService = {
     },
 
     async deleteAgent(id: string) {
-        return await prisma.agent.delete({
-            where: { id },
+        return await prisma.$transaction(async (tx) => {
+            const agent = await tx.agent.findUnique({
+                where: { id },
+                select: { userId: true },
+            });
+
+            if (!agent) throw new Error("Agent not found");
+
+            // Agent ডিলিট করা
+            await tx.agent.delete({ where: { id } });
+
+            // সম্পর্কিত User-ও ডিলিট করে দেওয়া
+            if (agent.userId) {
+                await tx.user.delete({ where: { id: agent.userId } });
+            }
         });
     },
 };
